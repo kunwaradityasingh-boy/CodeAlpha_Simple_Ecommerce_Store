@@ -58,6 +58,7 @@ CodeAlpha_Simple_Ecommerce_store/
 │
 └── README.md
 ```
+
 ## 📸 Screenshots
 
 ### 🏠 Home & Products
@@ -69,5 +70,3 @@ The application provides a clean e-commerce interface with product listing, pric
 User authentication and protected API routes are implemented using authentication middleware.
 
 ### 🛠️ Backend API
-
-The backend provides REST APIs for products, users, and orders using Node.js, Express, and MongoDB.
