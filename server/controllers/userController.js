@@ -29,7 +29,10 @@ const registerUser = async (req, res) => {
 
     // Generate JWT Token
     const token = jwt.sign(
-      { id: user._id },
+      { 
+        id: user._id,
+        role: user.role,
+      },
       process.env.JWT_SECRET || "codealpha_secret",
       { expiresIn: "7d" },
     );
@@ -41,6 +44,7 @@ const registerUser = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {
@@ -78,7 +82,10 @@ const loginUser = async (req, res) => {
 
     // Generate Token
     const token = jwt.sign(
-      { id: user._id },
+      { 
+        id: user._id,
+        role: user.role,
+      },
       process.env.JWT_SECRET || "codealpha_secret",
       { expiresIn: "7d" },
     );
@@ -90,7 +97,32 @@ const loginUser = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Get Current Logged-in User
+const getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user,
     });
   } catch (error) {
     res.status(500).json({
@@ -103,4 +135,5 @@ const loginUser = async (req, res) => {
 module.exports = {
   registerUser,
   loginUser,
+  getMe,
 };

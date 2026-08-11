@@ -21,32 +21,30 @@ const createProduct = async (req, res) => {
 
 const getProductById = async (req, res) => {
   try {
-    console.log("Product ID:", req.params.id);
-    const all = await Product.find();
-    console.log("All Products:", all);
-    console.log("Model Collection:", Product.collection.name);
+    const id = req.params.id;
 
-    const mongoose = require("mongoose");
+    console.log("==============================================");
+    console.log("Received ID:", id);
 
-    const product = await Product.collection.findOne({
-      _id: new mongoose.Types.ObjectId(req.params.id),
-    });
+    const foundProduct = await Product.findById(id);
 
-    console.log("Found Product:", product);
+    console.log("Found Product:", foundProduct);
 
-    if (!product) {
+    if (!foundProduct) {
       return res.status(404).json({
         success: false,
         message: "Product not found",
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      data: product,
+      data: foundProduct,
     });
   } catch (error) {
-    res.status(500).json({
+    console.error("Error:", error);
+
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
@@ -127,4 +125,4 @@ module.exports = {
   getProductById,
   updateProduct,
   deleteProduct,
-};
+}
