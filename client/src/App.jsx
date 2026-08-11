@@ -1,10 +1,19 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
+import productDetails from "./pages/ProductDetails";
 
 const API_URL = "http://localhost:5000/api";
 
 function App() {
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -27,76 +36,92 @@ function App() {
       });
   }, []);
 
+  const addToCart = (product) => {
+    setCart((currentCart) => [...currentCart, product]);
+    alert(`${product.name} added to cart`);
+  };
+
   return (
-    <div className="app">
-      <header className="navbar">
-        <div className="brand">CodeAlpha Store</div>
+    <BrowserRouter>
+      <div className="app">
+        <header className="navbar">
+          <div className="brand">CodeAlpha Store</div>
 
-        <nav>
-          <a href="#home">Home</a>
-          <a href="#products">Products</a>
-          <a href="#login">Login</a>
-        </nav>
-      </header>
+          <nav>
+            <a href="#home">Home</a>
+            <a href="#products">Products</a>
+            <a href="#login">Login</a>
+            <a href="#cart">Cart({cart.length})</a>
+          </nav>
+        </header>
 
-      <main>
-        <section id="home" className="hero-section">
-          <div>
-            <p className="eyebrow">CODEALPHA E-COMMERCE</p>
-            <h1>Simple. Modern. Powerful.</h1>
-            <p className="hero-text">
-              Discover quality products from our simple e-commerce store.
-            </p>
-            <a href="#products" className="shop-button">
-              Shop Now
-            </a>
-          </div>
-        </section>
+        <main>
+          <section id="home" className="hero-section">
+            <div>
+              <p className="eyebrow">CODEALPHA E-COMMERCE</p>
+              <h1>Simple. Modern. Powerful.</h1>
+              <p className="hero-text">
+                Discover quality products from our simple e-commerce store.
+              </p>
+              <a href="#products" className="shop-button">
+                Shop Now
+              </a>
+            </div>
+          </section>
 
-        <section id="products" className="products-section">
-          <h2>Our Products</h2>
+          <section id="products" className="products-section">
+            <h2>Our Products</h2>
 
-          {loading && <p>Loading products...</p>}
+            {loading && <p>Loading products...</p>}
 
-          {error && <p className="error">{error}</p>}
+            {error && <p className="error">{error}</p>}
 
-          {!loading && !error && products.length === 0 && (
-            <p>No products available.</p>
-          )}
+            {!loading && !error && products.length === 0 && (
+              <p>No products available.</p>
+            )}
 
-          <div className="products-grid">
-            {products.map((product) => (
-              <article className="product-card" key={product._id}>
-                <div className="product-image">
-                  {product.image ? (
-                    <img src={product.image} alt={product.name} />
-                  ) : (
-                    <span>No Image</span>
-                  )}
-                </div>
-
-                <div className="product-info">
-                  <p className="category">{product.category}</p>
-                  <h3>{product.name}</h3>
-                  <p className="description">{product.description}</p>
-
-                  <div className="product-bottom">
-                    <strong>₹{product.price}</strong>
-                    <span>Stock: {product.stock}</span>
+            <div className="products-grid">
+              {products.map((product) => (
+                <article className="product-card" key={product._id}>
+                  <div className="product-image">
+                    {product.image ? (
+                      <img src={product.image} alt={product.name} />
+                    ) : (
+                      <span>No Image</span>
+                    )}
                   </div>
 
-                  <button type="button">Add to Cart</button>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-      </main>
+                  <div className="product-info">
+                    <p className="category">{product.category}</p>
+                    <h3>{product.name}</h3>
+                    <p className="description">{product.description}</p>
 
-      <footer>
-        <p>© 2026 CodeAlpha Simple E-Commerce Store</p>
-      </footer>
-    </div>
+                    <div className="product-bottom">
+                      <strong>₹{product.price}</strong>
+                      <span>Stock: {product.stock}</span>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCart((currentCart) => [...currentCart, product]);
+                        alert(`${product.name} added to cart`);
+                      }}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        </main>
+
+        <footer>
+          <p>© 2026 CodeAlpha Simple E-Commerce Store</p>
+        </footer>
+      </div>
+    </BrowserRouter>
   );
 }
 
