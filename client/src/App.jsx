@@ -96,6 +96,13 @@ function App() {
                     <h3>{product.name}</h3>
                     <p className="description">{product.description}</p>
 
+                    <Link
+                      to={`/products/${product._id}`}
+                      className="view-details"
+                    >
+                      View Details
+                    </Link>
+
                     <div className="product-bottom">
                       <strong>₹{product.price}</strong>
                       <span>Stock: {product.stock}</span>
