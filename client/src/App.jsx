@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-} from "react-router-dom";
-import productDetails from "./pages/ProductDetails";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import ProductDetails from "./pages/ProductDetails";
+import Checkout from "./pages/Checkout";
 
 const API_URL = "http://localhost:5000/api";
 
@@ -108,13 +103,7 @@ function App() {
                       <span>Stock: {product.stock}</span>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setCart((currentCart) => [...currentCart, product]);
-                        alert(`${product.name} added to cart`);
-                      }}
-                    >
+                    <button type="button" onClick={() => addToCart(product)}>
                       Add to Cart
                     </button>
                   </div>
@@ -122,7 +111,57 @@ function App() {
               ))}
             </div>
           </section>
+          <section id="cart" className="cart-section">
+            <h2>Your Cart</h2>
+
+            {cart.length === 0 ? (
+              <p>Your cart is empty.</p>
+            ) : (
+              <>
+                <div className="cart-items">
+                  {cart.map((item, index) => (
+                    <div className="cart-item" key={`${item._id}-${index}`}>
+                      <div>
+                        <h3>{item.name}</h3>
+                        <p>₹{item.price}</p>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCart((currentCart) =>
+                            currentCart.filter((_, i) => i !== index),
+                          );
+                        }}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="cart-total">
+                  <strong>
+                    Total: ₹
+                    {cart.reduce(
+                      (total, item) => total + Number(item.price),
+                      0,
+                    )}
+                  </strong>
+
+                  <Link to="/Checkout" className="checkout-button">
+                    Checkout
+                  </Link>
+                </div>
+              </>
+            )}
+          </section>
         </main>
+
+        <Routes>
+          <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="/checkout" element={<Checkout cart={cart} />} />
+        </Routes>
 
         <footer>
           <p>© 2026 CodeAlpha Simple E-Commerce Store</p>
