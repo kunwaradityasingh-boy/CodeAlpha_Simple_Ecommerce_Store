@@ -735,3 +735,119 @@ footer {
     padding: 25px 20px;
   }
 }
+
+/* =========================
+   ADMIN DASHBOARD
+========================= */
+
+.admin-dashboard {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.admin-dashboard h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.admin-dashboard h2 {
+  margin: 25px 0 15px;
+}
+
+/* Statistics */
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.admin-stat-card {
+  background: white;
+  padding: 22px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+}
+
+.admin-stat-card h3 {
+  margin-bottom: 10px;
+}
+
+.admin-stat-card p {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Orders */
+
+.admin-order-card {
+  background: white;
+  padding: 22px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+}
+
+.admin-order-card h3 {
+  margin-bottom: 15px;
+}
+
+.admin-order-card p {
+  margin: 8px 0;
+}
+
+/* Status */
+
+.order-status {
+  font-weight: bold;
+}
+
+.order-status.Pending {
+  color: #f59e0b;
+}
+
+.order-status.Processing {
+  color: #2563eb;
+}
+
+.order-status.Shipped {
+  color: #7c3aed;
+}
+
+.order-status.Delivered {
+  color: #16a34a;
+}
+
+/* Buttons */
+
+.delete-order-button {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 9px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.delete-order-button:hover {
+  background: #b91c1c;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .admin-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-stats {
+    grid-template-columns: 1fr;
+  }
+}

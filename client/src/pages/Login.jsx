@@ -46,7 +46,7 @@ function Login() {
 
       alert("Login successful!");
 
-      navigate("/");
+      navigate("/admin");
     } catch (err) {
       console.error(err);
       setError(err.message || "Unable to login");

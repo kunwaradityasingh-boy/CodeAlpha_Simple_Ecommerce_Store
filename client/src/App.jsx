@@ -6,6 +6,7 @@ import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MyOrders from "./pages/MyOrders";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const API_URL = "http://localhost:5000/api";
 
@@ -171,6 +172,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/my-orders" element={<MyOrders />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
 
         <footer>
