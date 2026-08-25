@@ -1,16 +1,65 @@
 const Order = require("../models/Order");
+const Product = require("../models/Product");
 
 // Create Order
 const createOrder = async (req, res) => {
   try {
-    const { products, totalPrice } = req.body;
+    const { products, totalPrice, name, phone, address, paymentMethod } =
+      req.body;
 
+    // Validate required order data
+    if (
+      !products ||
+      products.length === 0 ||
+      !totalPrice ||
+      !name ||
+      !phone ||
+      !address ||
+      !paymentMethod
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "All order details are required",
+      });
+    }
+
+    // Check products and stock before creating order
+    for (const item of products) {
+      const product = await Product.findById(item.product);
+
+      if (!product) {
+        return res.status(404).json({
+          success: false,
+          message: `Not enough stock for ${product.name}`,
+        });
+      }
+    }
+
+    // Create Order
     const order = await Order.create({
       user: req.user.id,
       products,
       totalPrice,
+      name,
+      phone,
+      address,
+      paymentMethod,
     });
 
+    // Reduce product stock
+    for (const item of products) {
+      await Product.findByIdAndUpdate(
+        item.product,
+        {
+          $inc: {
+            stock: -item.quantity,
+          },
+        },
+        {
+          new: true,
+        },
+      );
+    }
     res.status(201).json({
       success: true,
       data: order,

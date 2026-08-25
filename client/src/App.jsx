@@ -3,6 +3,9 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import ProductDetails from "./pages/ProductDetails";
 import Checkout from "./pages/Checkout";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import MyOrders from "./pages/MyOrders";
 
 const API_URL = "http://localhost:5000/api";
 
@@ -45,7 +48,8 @@ function App() {
           <nav>
             <a href="#home">Home</a>
             <a href="#products">Products</a>
-            <a href="#login">Login</a>
+            <Link to="/my-orders">My Orders</Link>
+            <Link to="/login">Login</Link>
             <a href="#cart">Cart({cart.length})</a>
           </nav>
         </header>
@@ -149,7 +153,7 @@ function App() {
                     )}
                   </strong>
 
-                  <Link to="/Checkout" className="checkout-button">
+                  <Link to="/checkout" className="checkout-button">
                     Checkout
                   </Link>
                 </div>
@@ -160,7 +164,13 @@ function App() {
 
         <Routes>
           <Route path="/products/:id" element={<ProductDetails />} />
-          <Route path="/checkout" element={<Checkout cart={cart} />} />
+          <Route
+            path="/checkout"
+            element={<Checkout cart={cart} setCart={setCart} />}
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/my-orders" element={<MyOrders />} />
         </Routes>
 
         <footer>
